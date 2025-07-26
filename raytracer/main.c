@@ -28,20 +28,7 @@
 #define NUM_CYLINDERS  1
 #define NUM_DISKS      1
 #define MAX_TRIANGLES 128
-
-/* UART for bare-metal output */
-static volatile uint32_t *UART0 = (uint32_t *) 0x09000000;
-static inline void uart_putc(char c)
-{
-  while (*(UART0 + 6) & (1 << 5));
-  *UART0 = c;
-}
-
-static inline void uart_puts(const char *s)
-{
-  while (*s)
-    uart_putc(*s++);
-}
+#define MAX_LOOPS	10
 
 /* Math utilities */
 static inline float sqrtf(float x)
@@ -624,7 +611,7 @@ static int validate_framebuffer(int sid)
 }
 #endif
 
-void main(void)
+void raytracer_main(void)
 {
 #ifdef GENERATE_GOLDEN
   ensure_directory();
@@ -651,4 +638,16 @@ void main(void)
   printf("TEST PASS\n");
 #endif
 //  while (1);
+}
+
+
+int main(int argc, char** argv)
+{
+#ifdef GENERATE_GOLDEN
+	raytracer_main();
+#else
+	for(int i =0 ; i < MAX_LOOPS; i++)
+		raytracer_main();
+#endif
+	return 0;
 }
