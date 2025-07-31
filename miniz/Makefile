@@ -1,7 +1,7 @@
 # Project settings
 TARGET = compress_test
 SRC = compress_test.c
-MINIZ_DIR = miniz
+MINIZ_DIR = algos
 MINIZ_SRC = $(MINIZ_DIR)/miniz.c $(MINIZ_DIR)/miniz_tdef.c $(MINIZ_DIR)/miniz_tinfl.c
 INCLUDES = -I$(MINIZ_DIR)
 
